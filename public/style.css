@@ -86,7 +86,7 @@ button:hover {
 
 #spellSteps {
   margin-top: 1rem;
-  min-height: 120px;
+  min-height: 200px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -97,13 +97,18 @@ button:hover {
   font-style: italic;
   opacity: 0;
   animation: fadeIn 0.8s forwards;
+  animation-fill-mode: both;
   margin: 0.25rem 0;
   width: 100%;
   max-width: 500px;
+  height: 1.8em; /* consistent height regardless of line wrap */
+  line-height: 1.8em;
   padding: 0 1rem;
   box-sizing: border-box;
   text-align: center;
-  word-wrap: break-word;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
 }
 
 @keyframes fadeIn {
@@ -289,5 +294,12 @@ button:hover {
   .recipe-card {
     margin: 1rem;
     padding: 1rem;
+  }
+
+  .spell-step {
+    white-space: normal;
+    text-overflow: unset;
+    height: auto;
+    line-height: 1.4;
   }
 }
