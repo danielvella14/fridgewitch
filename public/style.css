@@ -84,32 +84,21 @@ button:hover {
   margin-top: 2rem;
 }
 
-.magic-circle {
-  position: relative;
-  margin: auto;
-  width: 60px;
-  height: 60px;
+#spellSteps {
+  margin-top: 1rem;
 }
 
-.star {
-  font-size: 2rem;
-  position: absolute;
-  animation: twinkle 1.5s infinite ease-in-out;
+.spell-step {
+  font-size: 1.2rem;
+  font-style: italic;
+  opacity: 0;
+  animation: fadeIn 0.8s forwards;
+  margin: 0.25rem 0;
 }
 
-.delay1 {
-  left: 20px;
-  animation-delay: 0.5s;
-}
-
-.delay2 {
-  left: 40px;
-  animation-delay: 1s;
-}
-
-@keyframes twinkle {
-  0%, 100% { opacity: 0; transform: scale(0.5); }
-  50% { opacity: 1; transform: scale(1.2); }
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 
 .recipe-card {
@@ -123,6 +112,16 @@ button:hover {
   text-align: left;
 }
 
+.recipe-card a {
+  text-decoration: none;
+  color: inherit;
+  display: block;
+}
+
+.recipe-card a:hover {
+  text-decoration: underline;
+}
+
 .recipe-card h3 {
   font-size: 1.5rem;
   margin-bottom: 0.5rem;
@@ -134,21 +133,13 @@ button:hover {
   max-width: 100%;
   border-radius: 6px;
   margin: 0.5rem 0;
+  display: block;
 }
 
 .recipe-card p {
   font-size: 1rem;
   line-height: 1.6;
   margin: 0.5rem 0;
-}
-
-.recipe-card a {
-  color: inherit;
-  text-decoration: none;
-}
-
-.recipe-card a:hover {
-  text-decoration: underline;
 }
 
 .back-link {
@@ -169,14 +160,29 @@ button:hover {
 .chat-box {
   margin-top: 3rem;
   padding: 0 1rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
-.chat-box input[type="text"] {
+.chat-input-group {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin-top: 0.5rem;
+}
+
+.chat-input-group input[type="text"] {
   width: 100%;
   max-width: 400px;
-  margin-bottom: 10px;
   padding: 10px;
   font-family: inherit;
+}
+
+.chat-input-group button {
+  width: auto;
+  padding: 10px 20px;
 }
 
 #witchResponse {
