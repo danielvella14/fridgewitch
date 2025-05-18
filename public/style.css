@@ -36,6 +36,7 @@ body {
   display: flex;
   flex-direction: column;
   gap: 1rem;
+  padding: 0 1rem;
 }
 
 input[type="text"], select {
@@ -44,6 +45,8 @@ input[type="text"], select {
   border: 1px solid #ccc;
   border-radius: 4px;
   font-family: inherit;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 button {
@@ -56,6 +59,7 @@ button {
   cursor: pointer;
   box-shadow: 2px 2px 0 #111;
   transition: all 0.2s ease;
+  width: 100%;
 }
 
 button:hover {
@@ -72,8 +76,8 @@ button:hover {
 
 .button-row {
   display: flex;
-  justify-content: center;
-  gap: 15px;
+  flex-direction: column;
+  gap: 10px;
 }
 
 .loading-area {
@@ -164,16 +168,46 @@ button:hover {
 
 .chat-box {
   margin-top: 3rem;
+  padding: 0 1rem;
 }
 
 .chat-box input[type="text"] {
-  width: 70%;
+  width: 100%;
   max-width: 400px;
   margin-bottom: 10px;
+  padding: 10px;
+  font-family: inherit;
 }
 
 #witchResponse {
   margin-top: 10px;
   font-style: italic;
   font-size: 1rem;
+}
+
+/* 📱 Mobile Responsiveness */
+@media screen and (max-width: 600px) {
+  .main-title {
+    font-size: 2.2rem;
+  }
+
+  .tagline {
+    font-size: 1.05rem;
+    padding: 0 1rem;
+  }
+
+  .selectors-row {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .button-row {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .recipe-card {
+    margin: 1rem;
+    padding: 1rem;
+  }
 }
