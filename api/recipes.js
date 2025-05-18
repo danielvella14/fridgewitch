@@ -39,15 +39,14 @@ export default async function handler(req, res) {
 
       const allIngredients = recipe.extendedIngredients.map(ing => ing.name.toLowerCase());
 
-      // Reject if it contains a major protein not mentioned by the user
+      // BLOCK: any major protein that isn't in user input
       for (let protein of majorProteins) {
         if (
-          allIngredients.includes(protein) &&
+          isSimilar(protein, allIngredients) &&
           !isSimilar(protein, userInputs)
         ) return false;
       }
 
-      // Check extra ingredients
       const extras = allIngredients.filter(ing =>
         !isSimilar(ing, userInputs) && !isSimilar(ing, pantryStaples)
       );
@@ -56,7 +55,6 @@ export default async function handler(req, res) {
       return extras.length <= extraLimit;
     });
 
-    // Filter by preference (sweet/savory)
     if (preference === "sweet") {
       filtered = filtered.filter(r =>
         r.dishTypes.some(type => ["dessert", "snack", "drink"].includes(type.toLowerCase())) ||
@@ -69,11 +67,9 @@ export default async function handler(req, res) {
       );
     }
 
-    // Filter by diet
     if (diet === "vegetarian") filtered = filtered.filter(r => r.vegetarian);
     if (diet === "gluten free") filtered = filtered.filter(r => r.glutenFree);
 
-    // Fallback if too strict
     if (filtered.length === 0 && recipes.length > 0) {
       filtered = recipes.slice(0, 3);
     }
