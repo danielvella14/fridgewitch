@@ -24,17 +24,21 @@ function sanitize(text) {
 }
 
 function createRecipeCard(recipe) {
-  const title = recipe.title;
+  if (!recipe.sourceUrl || !recipe.sourceUrl.startsWith("http")) {
+    return ""; // skip broken or missing URLs
+  }
+
+  const title = sanitize(recipe.title);
   const image = recipe.image;
-  const summary = recipe.summary ? sanitize(recipe.summary) : "No summary available.";
-  const instructions = recipe.instructions ? sanitize(recipe.instructions) : "No instructions provided.";
+  const link = recipe.sourceUrl;
 
   return `
     <div class="recipe-card">
-      <h3>${title}</h3>
-      <img src="${image}" alt="${title}" />
-      <p><strong>Summary:</strong> ${summary}</p>
-      <p><strong>Instructions:</strong> ${instructions}</p>
+      <a href="${link}" target="_blank" rel="noopener noreferrer">
+        <h3>${title}</h3>
+        <img src="${image}" alt="${title}" />
+      </a>
+      <p>✨ A curious choice conjured just for you...</p>
     </div>
   `;
 }
@@ -57,7 +61,9 @@ async function fetchAndDisplayRecipes(url, resultsDiv, loadingDiv) {
 
     loadingDiv.hidden = true;
 
-    const validRecipes = data.filter(r => r.title && r.image);
+    const validRecipes = data.filter(
+      r => r.title && r.image && r.sourceUrl && r.sourceUrl.startsWith("http")
+    );
 
     if (!validRecipes.length) {
       resultsDiv.innerHTML = "No recipes found. The fridge spirits are puzzled!";
