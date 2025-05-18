@@ -159,30 +159,36 @@ button:hover {
 
 .chat-box {
   margin-top: 3rem;
-  padding: 0 1rem;
   display: flex;
   flex-direction: column;
   align-items: center;
+  width: 100%;
+}
+
+.chat-inner {
+  max-width: 600px;
+  width: 100%;
+  padding: 0 1rem;
 }
 
 .chat-input-group {
   display: flex;
   gap: 10px;
-  flex-wrap: wrap;
+  flex-wrap: nowrap;
   justify-content: center;
   margin-top: 0.5rem;
 }
 
 .chat-input-group input[type="text"] {
-  width: 100%;
-  max-width: 400px;
+  flex: 1;
   padding: 10px;
   font-family: inherit;
 }
 
 .chat-input-group button {
-  width: auto;
   padding: 10px 20px;
+  white-space: nowrap;
+  width: auto;
 }
 
 #witchResponse {
@@ -210,6 +216,11 @@ button:hover {
   .button-row {
     flex-direction: column;
     gap: 10px;
+  }
+
+  .chat-input-group {
+    flex-direction: column;
+    align-items: stretch;
   }
 
   .recipe-card {
