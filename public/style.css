@@ -1,0 +1,130 @@
+body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Cormorant Garamond', serif;
+  background: white;
+  color: #111;
+  text-align: center;
+}
+
+.main-title {
+  font-family: 'Unica One', sans-serif;
+  font-size: 3rem;
+  letter-spacing: 2px;
+  margin-top: 2rem;
+}
+
+.tagline {
+  font-size: 1.25rem;
+  margin-bottom: 1.5rem;
+  font-style: italic;
+  text-transform: none;
+}
+
+.search-container {
+  margin: 2rem auto;
+  max-width: 600px;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+input[type="text"], select {
+  padding: 12px;
+  font-size: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-family: inherit;
+}
+
+button {
+  padding: 12px 24px;
+  font-size: 1rem;
+  text-transform: uppercase;
+  font-weight: bold;
+  border: 2px solid #111;
+  background: white;
+  cursor: pointer;
+  box-shadow: 2px 2px 0 #111;
+  transition: all 0.2s ease;
+}
+
+button:hover {
+  background: #111;
+  color: white;
+}
+
+.selectors-row {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.button-row {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+}
+
+.loading-area {
+  margin-top: 2rem;
+}
+
+.magic-circle {
+  position: relative;
+  margin: auto;
+  width: 60px;
+  height: 60px;
+}
+
+.star {
+  font-size: 2rem;
+  position: absolute;
+  animation: twinkle 1.5s infinite ease-in-out;
+}
+
+.delay1 {
+  left: 20px;
+  animation-delay: 0.5s;
+}
+
+.delay2 {
+  left: 40px;
+  animation-delay: 1s;
+}
+
+@keyframes twinkle {
+  0%, 100% { opacity: 0; transform: scale(0.5); }
+  50% { opacity: 1; transform: scale(1.2); }
+}
+
+.recipe-card {
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 1rem;
+  margin: 1rem auto;
+  max-width: 400px;
+}
+
+.recipe-card img {
+  max-width: 100%;
+  border-radius: 5px;
+  margin-top: 10px;
+}
+
+.chat-box {
+  margin-top: 3rem;
+}
+
+.chat-box input[type="text"] {
+  width: 70%;
+  max-width: 400px;
+  margin-bottom: 10px;
+}
+
+#witchResponse {
+  margin-top: 10px;
+  font-style: italic;
+  font-size: 1rem;
+}
