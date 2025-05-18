@@ -101,7 +101,7 @@ button:hover {
   margin: 0.25rem 0;
   width: 100%;
   max-width: 500px;
-  height: 1.8em; /* consistent height regardless of line wrap */
+  height: 1.8em;
   line-height: 1.8em;
   padding: 0 1rem;
   box-sizing: border-box;
@@ -198,7 +198,7 @@ button:hover {
 
 .back-link {
   display: block;
-  margin-top: 4rem;
+  margin: 4rem auto 6rem; /* Adds space below the link */
   text-align: center;
   font-style: italic;
   font-size: 1rem;
