@@ -9,6 +9,8 @@ export default async function handler(req, res) {
     "tomato paste", "parmesan", "cheddar", "cream", "cream cheese", "breadcrumbs", "stock", "bouillon"
   ];
 
+  const restrictedMainIngredients = ["salmon", "beef", "pork", "shrimp", "lamb", "duck", "tuna"];
+
   function isSimilar(ingredient, list) {
     return list.some(item => ingredient.includes(item) || item.includes(ingredient));
   }
@@ -37,6 +39,14 @@ export default async function handler(req, res) {
       const extras = allIngredients.filter(ing =>
         !isSimilar(ing, userInputs) && !isSimilar(ing, pantryStaples)
       );
+
+      // 🚫 If recipe includes restricted ingredients not in user input, reject it
+      for (let restricted of restrictedMainIngredients) {
+        if (
+          allIngredients.includes(restricted) &&
+          !isSimilar(restricted, userInputs)
+        ) return false;
+      }
 
       const extraLimit = strict === "true" ? 0 : 5;
       return extras.length <= extraLimit;
