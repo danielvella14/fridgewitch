@@ -30,20 +30,28 @@
     <input type="text" id="ingredientInput" placeholder="e.g. chicken, cream, tomatoes" />
 
     <div class="selectors-row">
-      <label>
-        <input type="checkbox" id="strictMode" />
-        Strict ingredients only
-      </label>
+      <div style="display: flex; flex-direction: column; align-items: start;">
+        <label>
+          <input type="checkbox" id="strictMode" />
+          Strict ingredients only
+        </label>
+        <small style="font-size: 0.85rem; color: #555; margin-top: 2px;">
+          Only shows recipes using your ingredients and pantry staples — no extras.
+        </small>
+      </div>
+
       <select id="tastePreference">
         <option value="either">Taste: either</option>
         <option value="sweet">Sweet</option>
         <option value="savory">Savory</option>
       </select>
+
       <select id="dietPreference">
         <option value="none">Diet: any</option>
         <option value="vegetarian">Vegetarian</option>
         <option value="gluten free">Gluten Free</option>
       </select>
+
       <select id="starSign">
         <option value="none">Star Sign (just for fun)</option>
         <option value="aries">Aries</option>
