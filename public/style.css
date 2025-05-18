@@ -14,6 +14,15 @@ body {
   margin-top: 2rem;
 }
 
+.title-link {
+  text-decoration: none;
+  color: inherit;
+}
+
+.title-link:hover {
+  text-decoration: underline;
+}
+
 .tagline {
   font-size: 1.25rem;
   margin-bottom: 1.5rem;
@@ -104,13 +113,53 @@ button:hover {
   border-radius: 8px;
   padding: 1rem;
   margin: 1rem auto;
-  max-width: 400px;
+  max-width: 600px;
+  background-color: #fdfdfd;
+  font-family: 'Cormorant Garamond', serif;
+  text-align: left;
+}
+
+.recipe-card h3 {
+  font-size: 1.5rem;
+  margin-bottom: 0.5rem;
+  font-weight: 600;
+  color: #111;
 }
 
 .recipe-card img {
   max-width: 100%;
-  border-radius: 5px;
-  margin-top: 10px;
+  border-radius: 6px;
+  margin: 0.5rem 0;
+}
+
+.recipe-card p {
+  font-size: 1rem;
+  line-height: 1.6;
+  margin: 0.5rem 0;
+}
+
+.recipe-card a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.recipe-card a:hover {
+  text-decoration: underline;
+}
+
+.back-link {
+  display: block;
+  margin-top: 4rem;
+  text-align: center;
+  font-style: italic;
+  font-size: 1rem;
+  text-decoration: none;
+  color: #333;
+}
+
+.back-link:hover {
+  color: black;
+  text-decoration: underline;
 }
 
 .chat-box {
@@ -127,18 +176,4 @@ button:hover {
   margin-top: 10px;
   font-style: italic;
   font-size: 1rem;
-}
-.back-link {
-  display: block;
-  margin-top: 4rem;
-  text-align: center;
-  font-style: italic;
-  font-size: 1rem;
-  text-decoration: none;
-  color: #333;
-}
-
-.back-link:hover {
-  color: black;
-  text-decoration: underline;
 }
