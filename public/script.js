@@ -85,14 +85,14 @@ async function fetchAndDisplayRecipes(url, resultsDiv, loadingDiv) {
     );
 
     if (!validRecipes.length) {
-      resultsDiv.innerHTML = "No recipes found. The fridge spirits are puzzled!";
+      resultsDiv.innerHTML = "🔮 The spirits are silent... recipes may be conjured soon. Check back later, mortal.";
       return;
     }
 
     resultsDiv.innerHTML = validRecipes.map(createRecipeCard).join("");
   } catch (err) {
     loadingDiv.hidden = true;
-    resultsDiv.innerHTML = "Something went wrong with the ritual.";
+    resultsDiv.innerHTML = "🔮 The spirits are silent... recipes may be conjured soon. Check back later, mortal.";
     console.error(err);
   }
 }
@@ -118,7 +118,6 @@ document.getElementById("surpriseButton").addEventListener("click", () => {
   fetchAndDisplayRecipes(url, document.getElementById("results"), document.getElementById("loading"));
 });
 
-// 🧙 Confession Box with animated "Witch is typing..."
 function askWitch() {
   const input = document.getElementById("witchInput").value.trim().toLowerCase();
   const output = document.getElementById("witchResponse");
