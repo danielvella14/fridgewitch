@@ -17,10 +17,7 @@ async function showSpellSteps(steps) {
 }
 
 function sanitize(text) {
-  return text
-    .replace(/<\/?[^>]+(>|$)/g, "")
-    .replace(/&nbsp;/g, " ")
-    .trim();
+  return text.replace(/<\/?[^>]+(>|$)/g, "").replace(/&nbsp;/g, " ").trim();
 }
 
 function getStarSignMessage(sign) {
@@ -121,6 +118,7 @@ document.getElementById("surpriseButton").addEventListener("click", () => {
   fetchAndDisplayRecipes(url, document.getElementById("results"), document.getElementById("loading"));
 });
 
+// 🧙 Confession Box with animated "Witch is typing..."
 function askWitch() {
   const input = document.getElementById("witchInput").value.trim().toLowerCase();
   const output = document.getElementById("witchResponse");
@@ -130,7 +128,7 @@ function askWitch() {
     return;
   }
 
-  output.textContent = "The witch is typing...";
+  output.innerHTML = `<span class="typing">The witch is typing<span class="dots"></span></span>`;
 
   setTimeout(() => {
     const responses = [
@@ -148,5 +146,5 @@ function askWitch() {
 
     const randomResponse = responses[Math.floor(Math.random() * responses.length)];
     output.textContent = randomResponse;
-  }, 1000);
+  }, 3000);
 }
