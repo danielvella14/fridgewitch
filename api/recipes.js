@@ -1,3 +1,5 @@
+import fetch from 'node-fetch';
+
 export default async function handler(req, res) {
   const SPOON_KEY = process.env.SPOON_KEY;
   const { ingredients = "", surprise, preference = "either", diet = "none", strict } = req.query;
@@ -17,16 +19,25 @@ export default async function handler(req, res) {
     );
   }
 
+  async function urlIsValid(url) {
+    try {
+      const head = await fetch(url, { method: 'HEAD' });
+      return head.ok;
+    } catch {
+      return false;
+    }
+  }
+
   try {
     let recipes = [];
 
     if (surprise === "true") {
-      const r = await fetch(`https://api.spoonacular.com/recipes/random?number=12&apiKey=${SPOON_KEY}`);
+      const r = await fetch(`https://api.spoonacular.com/recipes/random?number=15&apiKey=${SPOON_KEY}`);
       const data = await r.json();
       recipes = data.recipes;
     } else {
       const r = await fetch(
-        `https://api.spoonacular.com/recipes/complexSearch?query=${encodeURIComponent(ingredients)}&fillIngredients=true&addRecipeInformation=true&number=20&ignorePantry=false&ranking=2&apiKey=${SPOON_KEY}`
+        `https://api.spoonacular.com/recipes/complexSearch?query=${encodeURIComponent(ingredients)}&fillIngredients=true&addRecipeInformation=true&number=25&ignorePantry=false&ranking=2&apiKey=${SPOON_KEY}`
       );
       const data = await r.json();
       recipes = data.results;
@@ -35,11 +46,10 @@ export default async function handler(req, res) {
     const userInputs = ingredients.toLowerCase().split(",").map(i => i.trim());
 
     let filtered = recipes.filter(recipe => {
-      if (!recipe.extendedIngredients) return false;
+      if (!recipe.extendedIngredients || !recipe.sourceUrl) return false;
 
       const allIngredients = recipe.extendedIngredients.map(ing => ing.name.toLowerCase());
 
-      // ❌ Block if any ingredient includes a major protein the user didn't mention
       for (let protein of majorProteins) {
         const recipeHasProtein = allIngredients.some(ing => ing.includes(protein));
         const userMentionedProtein = userInputs.some(input => input.includes(protein));
@@ -56,26 +66,21 @@ export default async function handler(req, res) {
       return extras.length <= extraLimit;
     });
 
-    if (preference === "sweet") {
-      filtered = filtered.filter(r =>
-        r.dishTypes.some(type => ["dessert", "snack", "drink"].includes(type.toLowerCase())) ||
-        /dessert|cake|cookie|sweet|pudding|brûlée|muffin|truffle|ice cream/i.test(r.title)
-      );
-    } else if (preference === "savory") {
-      filtered = filtered.filter(r =>
-        r.dishTypes.some(type => ["main course", "side dish", "lunch", "dinner", "salad", "soup"].includes(type.toLowerCase())) &&
-        !/dessert|cake|cookie|sweet|pudding|brûlée|muffin|truffle|ice cream/i.test(r.title)
-      );
+    // Filter only recipes that have valid source URLs
+    const validated = [];
+    for (let recipe of filtered) {
+      if (recipe.sourceUrl && await urlIsValid(recipe.sourceUrl)) {
+        validated.push(recipe);
+      }
+      if (validated.length >= 8) break;
     }
 
-    if (diet === "vegetarian") filtered = filtered.filter(r => r.vegetarian);
-    if (diet === "gluten free") filtered = filtered.filter(r => r.glutenFree);
-
-    if (filtered.length === 0 && recipes.length > 0) {
-      filtered = recipes.slice(0, 3);
+    if (validated.length === 0 && recipes.length > 0) {
+      res.status(200).json([]);
+    } else {
+      res.status(200).json(validated);
     }
 
-    res.status(200).json(filtered.slice(0, 8));
   } catch (err) {
     console.error("Witch API error:", err);
     res.status(500).json({ error: "Something went wrong with the spell" });
