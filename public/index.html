@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>FRIDGE WITCH</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600&family=Unica+One&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css"/>
+</head>
+<body>
+  <main class="content-wrapper">
+    <h1 class="main-title">FRIDGE WITCH</h1>
+    <p class="tagline">tell me what’s in your fridge — i’ll conjure something delicious.</p>
+
+    <div class="search-container">
+      <input type="text" id="ingredientInput" placeholder="e.g. eggs, cheese, spinach..." />
+
+      <div class="strict-toggle">
+        <label>
+          <input type="checkbox" id="strictMode" />
+          🧹 strict mode (no extra ingredients)
+        </label>
+      </div>
+
+      <div class="selectors-row">
+        <select id="tastePreference">
+          <option value="either">either</option>
+          <option value="savory">savory</option>
+          <option value="sweet">sweet</option>
+        </select>
+        <select id="dietPreference">
+          <option value="none">no diet preference</option>
+          <option value="vegetarian">vegetarian</option>
+          <option value="gluten free">gluten-free</option>
+        </select>
+      </div>
+
+      <div class="button-row">
+        <button id="searchButton"><span class="wand">🪄</span> conjure recipes</button>
+        <button id="surpriseButton">surprise me</button>
+      </div>
+    </div>
+
+    <div class="loading-area" id="loading" hidden>
+      <div class="magic-circle">
+        <div class="star">✨</div>
+        <div class="star delay1">✨</div>
+        <div class="star delay2">✨</div>
+      </div>
+      <div class="loading-spells" id="spellSteps"></div>
+    </div>
+
+    <div class="results" id="results"></div>
+
+    <div class="chat-box">
+      <h3>confess your worst fridge sin</h3>
+      <input type="text" id="witchInput" placeholder="for example, 'i've had the same bottle of ketchup for 3 years'" />
+      <button onclick="askWitch()">confess</button>
+      <div id="witchResponse"></div>
+    </div>
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>
