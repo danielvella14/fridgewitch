@@ -15,12 +15,26 @@ async function showSpellSteps(steps) {
   }
 }
 
+function slugify(text) {
+  return text
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/(^-|-$)/g, "");
+}
+
+function getValidRecipeUrl(recipe) {
+  if (recipe.sourceUrl && recipe.sourceUrl.startsWith("http")) {
+    return recipe.sourceUrl;
+  }
+  return `https://spoonacular.com/recipes/${slugify(recipe.title)}-${recipe.id}`;
+}
+
 function createRecipeCard(recipe) {
-  if (!recipe.sourceUrl) return ""; // ⛔️ Skip recipes with no link
+  const recipeUrl = getValidRecipeUrl(recipe);
 
   return `
     <div class="recipe-card">
-      <a href="${recipe.sourceUrl}" target="_blank" rel="noopener noreferrer">
+      <a href="${recipeUrl}" target="_blank" rel="noopener noreferrer">
         <h3>${recipe.title}</h3>
         <img src="${recipe.image}" alt="${recipe.title}" />
       </a>
@@ -47,7 +61,7 @@ async function fetchAndDisplayRecipes(url, resultsDiv, loadingDiv) {
 
     loadingDiv.hidden = true;
 
-    const validRecipes = data.filter(r => r.sourceUrl);
+    const validRecipes = data.filter(r => r.title && r.image && r.id);
 
     if (!validRecipes.length) {
       resultsDiv.innerHTML = "No recipes found. The fridge spirits are puzzled!";
