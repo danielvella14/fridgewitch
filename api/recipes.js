@@ -39,12 +39,13 @@ export default async function handler(req, res) {
 
       const allIngredients = recipe.extendedIngredients.map(ing => ing.name.toLowerCase());
 
-      // BLOCK: any major protein that isn't in user input
+      // ❌ Block if any ingredient includes a major protein the user didn't mention
       for (let protein of majorProteins) {
-        if (
-          isSimilar(protein, allIngredients) &&
-          !isSimilar(protein, userInputs)
-        ) return false;
+        const recipeHasProtein = allIngredients.some(ing => ing.includes(protein));
+        const userMentionedProtein = userInputs.some(input => input.includes(protein));
+        if (recipeHasProtein && !userMentionedProtein) {
+          return false;
+        }
       }
 
       const extras = allIngredients.filter(ing =>
