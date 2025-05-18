@@ -50,8 +50,10 @@ document.getElementById("searchButton").addEventListener("click", async () => {
 
     resultsDiv.innerHTML = data.map(recipe => `
       <div class="recipe-card">
-        <h3>${recipe.title}</h3>
-        <img src="${recipe.image}" alt="${recipe.title}" />
+        <a href="${recipe.sourceUrl}" target="_blank" rel="noopener noreferrer">
+          <h3>${recipe.title}</h3>
+          <img src="${recipe.image}" alt="${recipe.title}" />
+        </a>
         <p>✨ A curious choice conjured just for you...</p>
       </div>
     `).join("");
@@ -94,8 +96,10 @@ document.getElementById("surpriseButton").addEventListener("click", async () => 
 
     resultsDiv.innerHTML = data.map(recipe => `
       <div class="recipe-card">
-        <h3>${recipe.title}</h3>
-        <img src="${recipe.image}" alt="${recipe.title}" />
+        <a href="${recipe.sourceUrl}" target="_blank" rel="noopener noreferrer">
+          <h3>${recipe.title}</h3>
+          <img src="${recipe.image}" alt="${recipe.title}" />
+        </a>
         <p>✨ A curious choice conjured just for you...</p>
       </div>
     `).join("");
