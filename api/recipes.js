@@ -28,6 +28,17 @@ export default async function handler(req, res) {
     }
   }
 
+  async function getValidRecipesFromList(recipes, limit = 8) {
+    const validated = [];
+    for (let recipe of recipes) {
+      if (recipe.sourceUrl && await urlIsValid(recipe.sourceUrl)) {
+        validated.push(recipe);
+      }
+      if (validated.length >= limit) break;
+    }
+    return validated;
+  }
+
   try {
     let recipes = [];
 
@@ -66,20 +77,16 @@ export default async function handler(req, res) {
       return extras.length <= extraLimit;
     });
 
-    // Filter only recipes that have valid source URLs
-    const validated = [];
-    for (let recipe of filtered) {
-      if (recipe.sourceUrl && await urlIsValid(recipe.sourceUrl)) {
-        validated.push(recipe);
-      }
-      if (validated.length >= 8) break;
+    let validResults = await getValidRecipesFromList(filtered);
+
+    // Fallback if nothing valid found
+    if (validResults.length === 0) {
+      const fallbackRes = await fetch(`https://api.spoonacular.com/recipes/random?number=10&apiKey=${SPOON_KEY}`);
+      const fallbackData = await fallbackRes.json();
+      validResults = await getValidRecipesFromList(fallbackData.recipes, 5);
     }
 
-    if (validated.length === 0 && recipes.length > 0) {
-      res.status(200).json([]);
-    } else {
-      res.status(200).json(validated);
-    }
+    res.status(200).json(validResults);
 
   } catch (err) {
     console.error("Witch API error:", err);
