@@ -23,6 +23,25 @@ function sanitize(text) {
     .trim();
 }
 
+function getStarSignMessage(sign) {
+  const messages = {
+    aries: "An Aries spell needs spice — maybe too much.",
+    taurus: "Taurus desires comfort... and creamy potatoes.",
+    gemini: "Dual tastes detected. Sweet? Savoury? Both?",
+    cancer: "Soft shell, soft cheese. Cancer energy.",
+    leo: "Leo demands flair. Gold flakes optional.",
+    virgo: "Every sprinkle must be precise. Virgo-style.",
+    libra: "Balance is everything. Also: wine pairing.",
+    scorpio: "Dangerous desires stir. Chocolate? Chili?",
+    sagittarius: "Roaming spirit detected. Curry likely.",
+    capricorn: "Serious about structure. Like lasagna layers.",
+    aquarius: "Experimental vibes. You might invent a salad.",
+    pisces: "A soup. Always a soup. It's written.",
+    none: null
+  };
+  return messages[sign] || null;
+}
+
 function createRecipeCard(recipe) {
   if (!recipe.sourceUrl || !recipe.sourceUrl.startsWith("http")) return "";
 
@@ -32,7 +51,7 @@ function createRecipeCard(recipe) {
 
   return `
     <div class="recipe-card">
-      <a href="${link}" target="_blank" rel="noopener noreferrer" class="recipe-link">
+      <a href="${link}" target="_blank" rel="noopener noreferrer">
         <h3>${title}</h3>
         <img src="${image}" alt="${title}" />
       </a>
@@ -45,13 +64,18 @@ async function fetchAndDisplayRecipes(url, resultsDiv, loadingDiv) {
   loadingDiv.hidden = false;
   resultsDiv.innerHTML = "";
 
-  await showSpellSteps([
+  const selectedSign = document.getElementById("starSign").value;
+  const signMessage = getStarSignMessage(selectedSign);
+  const steps = [
+    ...(signMessage ? [signMessage] : []),
     "Consulting the pantry spirits...",
     "Grinding garlic dust...",
     "Translating forbidden recipes...",
     "Whisking quantum eggs...",
     "Summoning complete!"
-  ]);
+  ];
+
+  await showSpellSteps(steps);
 
   try {
     const res = await fetch(url);
