@@ -60,3 +60,41 @@
     gap: 10px;
   }
 }
+.magic-circle {
+  position: relative;
+  margin: 1rem auto 1.5rem;
+  width: 60px;
+  height: 60px;
+}
+
+.star {
+  font-size: 2rem;
+  position: absolute;
+  color: #444;
+  animation: twinkle 1.5s infinite ease-in-out;
+  left: 0;
+  top: 0;
+}
+
+.delay1 {
+  left: 20px;
+  top: 10px;
+  animation-delay: 0.5s;
+}
+
+.delay2 {
+  left: 40px;
+  top: 0;
+  animation-delay: 1s;
+}
+
+@keyframes twinkle {
+  0%, 100% {
+    opacity: 0.2;
+    transform: scale(0.5) rotate(0deg);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.4) rotate(180deg);
+  }
+}
