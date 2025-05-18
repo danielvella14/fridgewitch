@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>FRIDGE WITCH</title>
 
-  <!-- ✅ SEO + Social Meta Tags -->
+  <!-- ✅ SEO Meta Tags -->
   <meta name="description" content="Type your fridge ingredients and the Fridge Witch will conjure you a recipe — magically tailored with just what you have." />
   <meta name="keywords" content="fridge witch, recipe generator, leftovers recipe, ingredient recipes, kitchen magic, cooking from scraps" />
   <meta name="robots" content="index, follow" />
@@ -17,6 +17,26 @@
   <link rel="stylesheet" href="style.css" />
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600&family=Unica+One&display=swap" rel="stylesheet" />
   <link rel="icon" type="image/x-icon" href="/favicon.ico" />
+
+  <!-- ✅ Structured Data for SEO -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "name": "Fridge Witch",
+    "url": "https://fridgewitch.com",
+    "description": "A magical recipe generator that conjures meals based on what’s in your fridge.",
+    "author": {
+      "@type": "Person",
+      "name": "Fridge Witch"
+    },
+    "potentialAction": {
+      "@type": "SearchAction",
+      "target": "https://fridgewitch.com/?ingredients={search_term_string}",
+      "query-input": "required name=search_term_string"
+    }
+  }
+  </script>
 </head>
 <body>
 
@@ -98,7 +118,7 @@
   </div>
 
   <a class="back-link" href="lore.html">🕯️ read the witch’s backstory</a>
-
+  <img src="cauldron.png" alt="Bubbling Cauldron" class="cauldron" />
   <script src="script.js"></script>
 </body>
 </html>
