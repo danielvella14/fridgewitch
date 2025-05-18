@@ -5,6 +5,7 @@ function wait(ms) {
 async function showSpellSteps(steps) {
   const spellDiv = document.getElementById("spellSteps");
   spellDiv.innerHTML = "";
+
   for (let i = 0; i < steps.length; i++) {
     const step = document.createElement("div");
     step.className = "spell-step";
@@ -17,7 +18,7 @@ async function showSpellSteps(steps) {
 
 function sanitize(text) {
   return text
-    .replace(/<\/?[^>]+(>|$)/g, "") // strip HTML tags
+    .replace(/<\/?[^>]+(>|$)/g, "")
     .replace(/&nbsp;/g, " ")
     .trim();
 }
@@ -92,7 +93,6 @@ document.getElementById("surpriseButton").addEventListener("click", () => {
   fetchAndDisplayRecipes(url, document.getElementById("results"), document.getElementById("loading"));
 });
 
-// Fridge Confession Box
 function askWitch() {
   const input = document.getElementById("witchInput").value.trim().toLowerCase();
   const output = document.getElementById("witchResponse");
