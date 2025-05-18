@@ -9,10 +9,12 @@ export default async function handler(req, res) {
     "tomato paste", "parmesan", "cheddar", "cream", "cream cheese", "breadcrumbs", "stock", "bouillon"
   ];
 
-  const restrictedMainIngredients = ["salmon", "beef", "pork", "shrimp", "lamb", "duck", "tuna"];
+  const majorProteins = ["chicken", "beef", "pork", "salmon", "tuna", "lamb", "duck", "turkey", "ham", "bacon", "shrimp"];
 
   function isSimilar(ingredient, list) {
-    return list.some(item => ingredient.includes(item) || item.includes(ingredient));
+    return list.some(item =>
+      ingredient.includes(item) || item.includes(ingredient)
+    );
   }
 
   try {
@@ -36,22 +38,25 @@ export default async function handler(req, res) {
       if (!recipe.extendedIngredients) return false;
 
       const allIngredients = recipe.extendedIngredients.map(ing => ing.name.toLowerCase());
+
+      // Reject if it contains a major protein not mentioned by the user
+      for (let protein of majorProteins) {
+        if (
+          allIngredients.includes(protein) &&
+          !isSimilar(protein, userInputs)
+        ) return false;
+      }
+
+      // Check extra ingredients
       const extras = allIngredients.filter(ing =>
         !isSimilar(ing, userInputs) && !isSimilar(ing, pantryStaples)
       );
-
-      // 🚫 If recipe includes restricted ingredients not in user input, reject it
-      for (let restricted of restrictedMainIngredients) {
-        if (
-          allIngredients.includes(restricted) &&
-          !isSimilar(restricted, userInputs)
-        ) return false;
-      }
 
       const extraLimit = strict === "true" ? 0 : 5;
       return extras.length <= extraLimit;
     });
 
+    // Filter by preference (sweet/savory)
     if (preference === "sweet") {
       filtered = filtered.filter(r =>
         r.dishTypes.some(type => ["dessert", "snack", "drink"].includes(type.toLowerCase())) ||
@@ -64,9 +69,11 @@ export default async function handler(req, res) {
       );
     }
 
+    // Filter by diet
     if (diet === "vegetarian") filtered = filtered.filter(r => r.vegetarian);
     if (diet === "gluten free") filtered = filtered.filter(r => r.glutenFree);
 
+    // Fallback if too strict
     if (filtered.length === 0 && recipes.length > 0) {
       filtered = recipes.slice(0, 3);
     }
