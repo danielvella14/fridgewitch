@@ -1,4 +1,200 @@
-/* ONLY the chat section overrides — no other changes needed */
+body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Cormorant Garamond', serif;
+  background: white;
+  color: #111;
+  text-align: center;
+}
+
+.main-title {
+  font-family: 'Unica One', sans-serif;
+  font-size: 3rem;
+  letter-spacing: 2px;
+  margin-top: 2rem;
+}
+
+.title-link {
+  text-decoration: none;
+  color: inherit;
+}
+
+.title-link:hover {
+  text-decoration: underline;
+}
+
+.tagline {
+  font-size: 1.25rem;
+  margin-bottom: 1.5rem;
+  font-style: italic;
+  text-transform: none;
+}
+
+.search-container {
+  margin: 2rem auto;
+  max-width: 600px;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  padding: 0 1rem;
+}
+
+input[type="text"], select {
+  padding: 12px;
+  font-size: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-family: inherit;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+button {
+  padding: 12px 24px;
+  font-size: 1rem;
+  text-transform: uppercase;
+  font-weight: bold;
+  border: 2px solid #111;
+  background: white;
+  cursor: pointer;
+  box-shadow: 2px 2px 0 #111;
+  transition: all 0.2s ease;
+  width: 100%;
+}
+
+button:hover {
+  background: #111;
+  color: white;
+}
+
+.selectors-row {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.button-row {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.loading-area {
+  margin-top: 2rem;
+}
+
+#spellSteps {
+  margin-top: 1rem;
+}
+
+.spell-step {
+  font-size: 1.2rem;
+  font-style: italic;
+  opacity: 0;
+  animation: fadeIn 0.8s forwards;
+  margin: 0.25rem 0;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.magic-circle {
+  position: relative;
+  margin: 1rem auto 1.5rem;
+  width: 60px;
+  height: 60px;
+}
+
+.star {
+  font-size: 2rem;
+  position: absolute;
+  color: #444;
+  animation: twinkle 1.5s infinite ease-in-out;
+  left: 0;
+  top: 0;
+}
+
+.delay1 {
+  left: 20px;
+  top: 10px;
+  animation-delay: 0.5s;
+}
+
+.delay2 {
+  left: 40px;
+  top: 0;
+  animation-delay: 1s;
+}
+
+@keyframes twinkle {
+  0%, 100% {
+    opacity: 0.2;
+    transform: scale(0.5) rotate(0deg);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.4) rotate(180deg);
+  }
+}
+
+.recipe-card {
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 1rem;
+  margin: 1rem auto;
+  max-width: 600px;
+  background-color: #fdfdfd;
+  font-family: 'Cormorant Garamond', serif;
+  text-align: left;
+}
+
+.recipe-card a {
+  text-decoration: none;
+  color: inherit;
+  display: block;
+}
+
+.recipe-card a:hover {
+  text-decoration: underline;
+}
+
+.recipe-card h3 {
+  font-size: 1.5rem;
+  margin-bottom: 0.5rem;
+  font-weight: 600;
+  color: #111;
+}
+
+.recipe-card img {
+  max-width: 100%;
+  border-radius: 6px;
+  margin: 0.5rem 0;
+  display: block;
+}
+
+.recipe-card p {
+  font-size: 1rem;
+  line-height: 1.6;
+  margin: 0.5rem 0;
+}
+
+.back-link {
+  display: block;
+  margin-top: 4rem;
+  text-align: center;
+  font-style: italic;
+  font-size: 1rem;
+  text-decoration: none;
+  color: #333;
+}
+
+.back-link:hover {
+  color: black;
+  text-decoration: underline;
+}
 
 .chat-box {
   margin-top: 3rem;
@@ -55,46 +251,32 @@
 }
 
 @media screen and (max-width: 600px) {
+  .main-title {
+    font-size: 2.2rem;
+  }
+
+  .tagline {
+    font-size: 1.05rem;
+    padding: 0 1rem;
+  }
+
+  .selectors-row {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .button-row {
+    flex-direction: column;
+    gap: 10px;
+  }
+
   .chat-input-group {
     flex-direction: column;
     gap: 10px;
   }
-}
-.magic-circle {
-  position: relative;
-  margin: 1rem auto 1.5rem;
-  width: 60px;
-  height: 60px;
-}
 
-.star {
-  font-size: 2rem;
-  position: absolute;
-  color: #444;
-  animation: twinkle 1.5s infinite ease-in-out;
-  left: 0;
-  top: 0;
-}
-
-.delay1 {
-  left: 20px;
-  top: 10px;
-  animation-delay: 0.5s;
-}
-
-.delay2 {
-  left: 40px;
-  top: 0;
-  animation-delay: 1s;
-}
-
-@keyframes twinkle {
-  0%, 100% {
-    opacity: 0.2;
-    transform: scale(0.5) rotate(0deg);
-  }
-  50% {
-    opacity: 1;
-    transform: scale(1.4) rotate(180deg);
+  .recipe-card {
+    margin: 1rem;
+    padding: 1rem;
   }
 }
