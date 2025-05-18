@@ -15,30 +15,25 @@ async function showSpellSteps(steps) {
   }
 }
 
-function slugify(text) {
+function sanitize(text) {
   return text
-    .toLowerCase()
-    .replace(/[^a-z0-9]+/g, "-")
-    .replace(/(^-|-$)/g, "");
-}
-
-function getValidRecipeUrl(recipe) {
-  if (recipe.sourceUrl && recipe.sourceUrl.startsWith("http")) {
-    return recipe.sourceUrl;
-  }
-  return `https://spoonacular.com/recipes/${slugify(recipe.title)}-${recipe.id}`;
+    .replace(/<\/?[^>]+(>|$)/g, "") // strip HTML tags
+    .replace(/&nbsp;/g, " ")
+    .trim();
 }
 
 function createRecipeCard(recipe) {
-  const recipeUrl = getValidRecipeUrl(recipe);
+  const title = recipe.title;
+  const image = recipe.image;
+  const summary = recipe.summary ? sanitize(recipe.summary) : "No summary available.";
+  const instructions = recipe.instructions ? sanitize(recipe.instructions) : "No instructions provided.";
 
   return `
     <div class="recipe-card">
-      <a href="${recipeUrl}" target="_blank" rel="noopener noreferrer">
-        <h3>${recipe.title}</h3>
-        <img src="${recipe.image}" alt="${recipe.title}" />
-      </a>
-      <p>✨ A curious choice conjured just for you...</p>
+      <h3>${title}</h3>
+      <img src="${image}" alt="${title}" />
+      <p><strong>Summary:</strong> ${summary}</p>
+      <p><strong>Instructions:</strong> ${instructions}</p>
     </div>
   `;
 }
@@ -61,7 +56,7 @@ async function fetchAndDisplayRecipes(url, resultsDiv, loadingDiv) {
 
     loadingDiv.hidden = true;
 
-    const validRecipes = data.filter(r => r.title && r.image && r.id);
+    const validRecipes = data.filter(r => r.title && r.image);
 
     if (!validRecipes.length) {
       resultsDiv.innerHTML = "No recipes found. The fridge spirits are puzzled!";
