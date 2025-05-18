@@ -15,7 +15,54 @@ async function showSpellSteps(steps) {
   }
 }
 
-document.getElementById("searchButton").addEventListener("click", async () => {
+function createRecipeCard(recipe) {
+  if (!recipe.sourceUrl) return ""; // ⛔️ Skip recipes with no link
+
+  return `
+    <div class="recipe-card">
+      <a href="${recipe.sourceUrl}" target="_blank" rel="noopener noreferrer">
+        <h3>${recipe.title}</h3>
+        <img src="${recipe.image}" alt="${recipe.title}" />
+      </a>
+      <p>✨ A curious choice conjured just for you...</p>
+    </div>
+  `;
+}
+
+async function fetchAndDisplayRecipes(url, resultsDiv, loadingDiv) {
+  loadingDiv.hidden = false;
+  resultsDiv.innerHTML = "";
+
+  await showSpellSteps([
+    "Consulting the pantry spirits...",
+    "Grinding garlic dust...",
+    "Translating forbidden recipes...",
+    "Whisking quantum eggs...",
+    "Summoning complete!"
+  ]);
+
+  try {
+    const res = await fetch(url);
+    const data = await res.json();
+
+    loadingDiv.hidden = true;
+
+    const validRecipes = data.filter(r => r.sourceUrl);
+
+    if (!validRecipes.length) {
+      resultsDiv.innerHTML = "No recipes found. The fridge spirits are puzzled!";
+      return;
+    }
+
+    resultsDiv.innerHTML = validRecipes.map(createRecipeCard).join("");
+  } catch (err) {
+    loadingDiv.hidden = true;
+    resultsDiv.innerHTML = "Something went wrong with the ritual.";
+    console.error(err);
+  }
+}
+
+document.getElementById("searchButton").addEventListener("click", () => {
   const ingredients = document.getElementById("ingredientInput").value.trim();
   const preference = document.getElementById("tastePreference").value;
   const diet = document.getElementById("dietPreference").value;
@@ -23,91 +70,17 @@ document.getElementById("searchButton").addEventListener("click", async () => {
 
   if (!ingredients) return alert("Please enter some ingredients!");
 
-  const loadingDiv = document.getElementById("loading");
-  const resultsDiv = document.getElementById("results");
-
-  loadingDiv.hidden = false;
-  resultsDiv.innerHTML = "";
-
-  await showSpellSteps([
-    "Consulting the pantry spirits...",
-    "Grinding garlic dust...",
-    "Translating forbidden recipes...",
-    "Whisking quantum eggs...",
-    "Summoning complete!"
-  ]);
-
-  try {
-    const res = await fetch(`/api/recipes?ingredients=${encodeURIComponent(ingredients)}&preference=${preference}&diet=${diet}&strict=${strict}`);
-    const data = await res.json();
-
-    loadingDiv.hidden = true;
-
-    if (!data.length) {
-      resultsDiv.innerHTML = "No recipes found. The fridge spirits are puzzled!";
-      return;
-    }
-
-    resultsDiv.innerHTML = data.map(recipe => `
-      <div class="recipe-card">
-        <a href="${recipe.sourceUrl}" target="_blank" rel="noopener noreferrer">
-          <h3>${recipe.title}</h3>
-          <img src="${recipe.image}" alt="${recipe.title}" />
-        </a>
-        <p>✨ A curious choice conjured just for you...</p>
-      </div>
-    `).join("");
-  } catch (err) {
-    loadingDiv.hidden = true;
-    resultsDiv.innerHTML = "Something went wrong with the ritual.";
-    console.error(err);
-  }
+  const url = `/api/recipes?ingredients=${encodeURIComponent(ingredients)}&preference=${preference}&diet=${diet}&strict=${strict}`;
+  fetchAndDisplayRecipes(url, document.getElementById("results"), document.getElementById("loading"));
 });
 
-document.getElementById("surpriseButton").addEventListener("click", async () => {
+document.getElementById("surpriseButton").addEventListener("click", () => {
   const preference = document.getElementById("tastePreference").value;
   const diet = document.getElementById("dietPreference").value;
   const strict = document.getElementById("strictMode").checked;
 
-  const loadingDiv = document.getElementById("loading");
-  const resultsDiv = document.getElementById("results");
-
-  loadingDiv.hidden = false;
-  resultsDiv.innerHTML = "";
-
-  await showSpellSteps([
-    "Consulting the pantry spirits...",
-    "Grinding garlic dust...",
-    "Translating forbidden recipes...",
-    "Whisking quantum eggs...",
-    "Summoning complete!"
-  ]);
-
-  try {
-    const res = await fetch(`/api/recipes?surprise=true&preference=${preference}&diet=${diet}&strict=${strict}`);
-    const data = await res.json();
-
-    loadingDiv.hidden = true;
-
-    if (!data.length) {
-      resultsDiv.innerHTML = "The fridge spirits are silent. Try again!";
-      return;
-    }
-
-    resultsDiv.innerHTML = data.map(recipe => `
-      <div class="recipe-card">
-        <a href="${recipe.sourceUrl}" target="_blank" rel="noopener noreferrer">
-          <h3>${recipe.title}</h3>
-          <img src="${recipe.image}" alt="${recipe.title}" />
-        </a>
-        <p>✨ A curious choice conjured just for you...</p>
-      </div>
-    `).join("");
-  } catch (err) {
-    loadingDiv.hidden = true;
-    resultsDiv.innerHTML = "Something went wrong with the ritual.";
-    console.error(err);
-  }
+  const url = `/api/recipes?surprise=true&preference=${preference}&diet=${diet}&strict=${strict}`;
+  fetchAndDisplayRecipes(url, document.getElementById("results"), document.getElementById("loading"));
 });
 
 // Fridge Confession Box
