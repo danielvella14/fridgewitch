@@ -24,9 +24,7 @@ function sanitize(text) {
 }
 
 function createRecipeCard(recipe) {
-  if (!recipe.sourceUrl || !recipe.sourceUrl.startsWith("http")) {
-    return ""; // skip broken or missing URLs
-  }
+  if (!recipe.sourceUrl || !recipe.sourceUrl.startsWith("http")) return "";
 
   const title = sanitize(recipe.title);
   const image = recipe.image;
@@ -34,7 +32,7 @@ function createRecipeCard(recipe) {
 
   return `
     <div class="recipe-card">
-      <a href="${link}" target="_blank" rel="noopener noreferrer">
+      <a href="${link}" target="_blank" rel="noopener noreferrer" class="recipe-link">
         <h3>${title}</h3>
         <img src="${image}" alt="${title}" />
       </a>
